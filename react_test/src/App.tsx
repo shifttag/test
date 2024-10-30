@@ -10,6 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 
@@ -18,13 +19,14 @@ const BOOK_API = "api/test/books";
 
 interface GetBookResponseDto {
   id: number;
-  book_title: string;
+  title: string;
   book_author: string;
   category: string;
 }
 
 function App() {
   const [result, setResult] = useState<GetBookResponseDto[]>([]);
+
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -64,7 +66,9 @@ function App() {
       <Typography variant="h4" mb={3} sx={{borderBottom: '2px solid black', 'padding': '8px', 'textAlign': 'center'}}>
         전체 책 조회
       </Typography>
+        
 
+      
       <TableContainer>
         <Table>
           <TableHead>
@@ -78,7 +82,7 @@ function App() {
           <TableBody>
             {result.map((result, index) => (
               <TableRow key={index}>
-                <TableCell>{result.book_title}</TableCell>
+                <TableCell>{result.title}</TableCell>
                 <TableCell>{result.book_author}</TableCell>
                 <TableCell>{result.category}</TableCell>
                 <TableCell>
@@ -92,7 +96,7 @@ function App() {
         </Table>
       </TableContainer>
     </Card>
-  );
+  )
 }
 
 export default App;

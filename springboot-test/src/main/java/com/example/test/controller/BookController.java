@@ -19,7 +19,6 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
-    private final BookRepository bookRepository;
 
     // 책 생성
     @PostMapping
@@ -57,7 +56,7 @@ public class BookController {
     }
 
     // 제목에 특정 단어가 포함된 책 조회
-    @GetMapping("/{keyword}")
+    @GetMapping("/search/title")
     public ResponseEntity<List<PostBookResponseDto>> getBooksByTitleContaining(@RequestParam String keyword) {
         List<PostBookResponseDto> books = bookService.getBooksByTitleContaining(keyword);
         return ResponseEntity.ok(books);
