@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostBookRequestDto {
-    private String book_title;
+    private String title;
     private String book_author;
     private Category category;
 }

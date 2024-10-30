@@ -21,7 +21,7 @@ public class BookService {
     // 책 생성
     public PostBookResponseDto createBook(PostBookRequestDto requestDto) {
         Book book = new Book (
-                null, requestDto.getBook_title(), requestDto.getBook_author(), requestDto.getCategory()
+                null, requestDto.getTitle(), requestDto.getBook_author(), requestDto.getCategory()
         );
         Book savedBook = bookRepository.save(book);
         return convertToPostResponseDto(savedBook);
@@ -52,21 +52,56 @@ public class BookService {
 
     private PostBookResponseDto convertToPostResponseDto(Book book) {
         return new PostBookResponseDto (
-                book.getId() ,book.getBook_title(), book.getBook_author(), book.getCategory()
+                book.getId() ,book.getTitle(), book.getBook_author(), book.getCategory()
         );
     }
 
     private GetBookListResponseDto convertToGetBookListResponseDto(Book book) {
         return new GetBookListResponseDto (
-                book.getId() ,book.getBook_title(), book.getBook_author(), book.getCategory()
+                book.getId() ,book.getTitle(), book.getBook_author(), book.getCategory()
         );
     }
 
     private GetBookResponseDto convertToGetBookResponseDto(Book book) {
         return new GetBookResponseDto (
-                book.getId() ,book.getBook_title(), book.getBook_author(), book.getCategory()
+                book.getId() ,book.getTitle(), book.getBook_author(), book.getCategory()
         );
     }
 
 
+    // 책 수정
+    public PostBookResponseDto updateBook(Long id, PostBookRequestDto updateDto) {
+        try{
+            Book book = bookRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("책을 찾을 수 없습니다"));
+            book.setTitle(updateDto.getTitle());
+            book.setBook_author(updateDto.getBook_author());
+            book.setCategory(updateDto.getCategory());
+
+            Book updateBook = bookRepository.save(book);
+            return convertToPostResponseDto(updateBook);
+        } catch(Exception e){
+            e.printStackTrace();
+            return new PostBookResponseDto();
+        }
+    }
+
+
+    // 책 삭제
+    public void deleteBook(Long id) {
+        try {
+            bookRepository.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("오류");
+        }
+    }
+
+    // 제목에 특정 단어가 포함된 책 조회
+    public List<PostBookResponseDto> getBooksByTitleContaining(String keyword) {
+        List<Book> books = bookRepository.findByTitleContaining(keyword);
+        return books.stream()
+                .map(this::convertToPostResponseDto)
+                .collect(Collectors.toList());
+    }
 }

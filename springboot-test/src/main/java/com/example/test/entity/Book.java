@@ -19,7 +19,7 @@ public class Book {
 
 
     @Column(nullable = false, length = 100)
-    private String book_title;
+    private String title;
 
     @Column(nullable = false, length = 255)
     private String book_author;

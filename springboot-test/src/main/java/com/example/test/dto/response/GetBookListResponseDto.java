@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GetBookListResponseDto {
     private Long id;
-    private String book_title;
+    private String title;
     private String book_author;
     private Category category;
 }
